@@ -19,13 +19,17 @@ watched cvar changes (`CVAR_UPDATE`), the addon sets:
 In combat it waits for `PLAYER_REGEN_ENABLED`. One option (checkbox under Esc > Options > AddOns, SavedVariable `ForeverLootSparklesDB.enabled`, default on); switching it off stops enforcing and writes the `DISABLED` values once (loot effect 0, outline modes 2). Tested in the client: switching on shows the sparkle at once, switching off only takes effect after a full game restart (`/reload` is not enough), so a notice shows while the option is off and sparkles were on this session. The cvar part lives in
 `ForeverLootSparkles.lua`.
 
-`SoftTarget.lua` (adapted from the maintainer's Lueur addon) adds sparkles on ore veins, herbs and optionally quest
+`SoftTarget.lua` (adapted from the maintainer's Lueur addon) adds sparkles on ore veins, herbs, corpses that still
+hold loot for the player (`UnitIsDead` + `CanLootUnit(guid)` hasLoot/canLoot; `UnitIsCorpse` is false for dead mobs;
+the game's loot sparkle left boss corpses out, reported on CurseForge; a corpse's contents can't be read before the
+loot window opens, checked in the client) and optionally quest
 objects: it switches on interaction soft targeting (`SoftTargetInteract` 3, range 60 (the client still stops at ~15), arc 2, icons via `SoftTargetIconInteract`, `SoftTargetIconGameObject`, `SoftTargetLowPriorityIcons` = 1), turns the
 `softinteract` nameplate on only for wanted objects (`SoftTargetNameplateInteract`), classifies the object by its
 cursor icon (`SetUnitCursorTexture`) and hangs a cluster of glints (`Textures/flare.tga`, fallback
 `Interface\Cooldown\star4`) on that nameplate. States: far (dim), ready (bright), locked (grey). The nameplate is closed on `PLAYER_REGEN_DISABLED` (cvars are locked in combat; left open, lootable corpses kept a 0% health nameplate, reported on CurseForge), so nodes don't sparkle in combat. Options
-`sparkleOre`, `sparkleHerbs` (default on), `sparkleQuest` (default off) in the same SavedVariable; the original cvar
-values sit in `ForeverLootSparklesDB.savedCVars` and are restored when all three are off. Its options are added by
+`sparkleOre`, `sparkleHerbs`, `sparkleCorpseLoot` (default on; off for an existing install that had every sparkle
+off, so it doesn't switch soft targeting back on), `sparkleQuest` (default off) in the same SavedVariable; the original cvar
+values sit in `ForeverLootSparklesDB.savedCVars` and are restored when all four are off. Its options are added by
 `ns.AddSoftTargetOptions` while the main file builds the panel. The addon list icon is `Icon.tga` (64×64, scaled down from `media/logo.png`, whose source is `media/logo.svg`).
 
 The feature was extracted from ForeverQoL, which set the same cvars through secure macro buttons

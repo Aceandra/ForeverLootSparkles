@@ -1,4 +1,5 @@
--- Sparkles on ore veins, herbs and quest objects as you approach them.
+-- Sparkles on ore veins, herbs, quest objects and corpses that still hold
+-- loot, as you approach them.
 -- Blizzard's soft targeting always picks one interaction target (the
 -- "softinteract" unit) and can give it a nameplate. A small cluster of glints,
 -- modelled on the quest loot sparkle, is hung on that nameplate. The object
@@ -17,11 +18,13 @@ local CATEGORY_OPTIONS = {
 	ore = "sparkleOre",
 	herb = "sparkleHerbs",
 	quest = "sparkleQuest",
+	corpseLoot = "sparkleCorpseLoot",
 };
 local DEFAULTS = {
 	sparkleOre = true,
 	sparkleHerbs = true,
 	sparkleQuest = false,
+	sparkleCorpseLoot = true,
 };
 
 local RANGE = 60;          -- soft target range in yards, asked as high as Lueur tried; Forever still drops the target past ~15
@@ -130,12 +133,16 @@ local function GetCVarValue(name)
 	end
 end
 
--- Only touches cvars this client knows
+-- Only touches cvars this client knows, and only when the value changes:
+-- CVAR_UPDATE is synchronous, so every write runs Blizzard's handlers tainted
+-- by this addon (seen as a GetAuraDataByIndex taint error from Edit Mode)
 local function SetCVarValue(name, value)
-	if GetCVarValue(name) == nil then
+	local current = GetCVarValue(name);
+	value = tostring(value);
+	if current == nil or current == value then
 		return;
 	end
-	pcall(C_CVar.SetCVar, name, tostring(value));
+	pcall(C_CVar.SetCVar, name, value);
 end
 
 -- The game's nameplate on the interaction target, which the sparkle hangs on.
@@ -330,6 +337,25 @@ local function Classify(unit, name)
 		category = "quest";
 	end
 	return category, blocked or false;
+end
+
+-- Does the corpse still hold loot this character may take? pcall instead of
+-- SafeCall: both return values are needed.
+local function HasLootLeft(unit)
+	local guid = SafeCall(UnitGUID, unit);
+	if not (guid and CanLootUnit) then
+		return false;
+	end
+	local ok, hasLoot, canLoot = pcall(CanLootUnit, guid);
+	if not ok or IsSecret(hasLoot) or IsSecret(canLoot) then
+		return false;
+	end
+	return hasLoot == true and canLoot ~= false;
+end
+
+-- UnitIsCorpse is false for dead mobs (checked in the client), UnitIsDead isn't
+local function IsCorpseWithLoot(unit)
+	return SafeCall(UnitIsDead, unit) == true and HasLootLeft(unit);
 end
 
 -- "ready": can interact; "far": too far; "locked": in range but the game
@@ -529,14 +555,23 @@ function Evaluate()
 		return;
 	end
 	local unit, plate, unknown = ResolveTarget();
-	-- only world objects sparkle: no NPCs, no corpses
-	if not unit or SafeCall(UnitIsGameObject, unit) ~= true then
+	if not unit then
 		SetGate(unknown == true); -- when in doubt, let the game show its target
 		Release();
 		return;
 	end
 
-	local category, blocked = Classify(unit, SafeCall(UnitName, unit));
+	-- world objects sparkle, and of the units only corpses with loot left
+	local category, blocked;
+	if SafeCall(UnitIsGameObject, unit) == true then
+		category, blocked = Classify(unit, SafeCall(UnitName, unit));
+	elseif db.sparkleCorpseLoot and IsCorpseWithLoot(unit) then
+		category, blocked = "corpseLoot", false;
+	else
+		SetGate(false);
+		Release();
+		return;
+	end
 	local option = CATEGORY_OPTIONS[category];
 	local wanted = option ~= nil and db[option] == true;
 	SetGate(wanted);
@@ -651,6 +686,11 @@ end
 -- Called from ForeverLootSparkles.lua while it builds the options panel
 function ns.AddSoftTargetOptions(category, savedVariables)
 	db = savedVariables;
+	-- an existing install with every sparkle off has its cvars restored: the new
+	-- corpse option must not switch soft targeting back on by itself
+	if db.sparkleCorpseLoot == nil and db.sparkleOre == false and db.sparkleHerbs == false and not db.sparkleQuest then
+		db.sparkleCorpseLoot = false;
+	end
 	for key, value in pairs(DEFAULTS) do
 		if db[key] == nil then
 			db[key] = value;
@@ -676,6 +716,8 @@ function ns.AddSoftTargetOptions(category, savedVariables)
 		"Sparkles on herbs as you approach them." .. how);
 	AddCheckbox("sparkleQuest", "FOREVER_LOOT_SPARKLES_QUEST", "Quest objects",
 		"Extra sparkles on quest objects as you approach them. Off by default: the game's loot sparkle already marks most of them." .. how);
+	AddCheckbox("sparkleCorpseLoot", "FOREVER_LOOT_SPARKLES_CORPSE_LOOT", "Corpses with loot",
+		"Sparkles on a corpse that still holds loot for you, bosses included. Only after the fight: the game doesn't let addons switch the nameplate it hangs on during combat." .. how);
 
 	UpdatePoller();
 end

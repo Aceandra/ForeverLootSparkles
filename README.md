@@ -29,6 +29,10 @@ This uses Blizzard's soft targeting, which picks the nearest interactable object
 
 The addon only switches on the game's name and icon for nodes that sparkle. NPCs, mailboxes and other objects still work with the interact key as usual. During combat nodes don't sparkle; they come back as soon as the fight is over.
 
+## Corpse sparkles
+
+The game's loot sparkle leaves some corpses out, bosses among them. Once the fight is over, a corpse that still holds loot for you gets the same golden glints as you approach it. The game doesn't let addons say what is in a corpse before it is opened, so the glints only say "there is loot left", not what it is.
+
 ![Herbs and ore sparkle too](https://raw.githubusercontent.com/svengabr/ForeverLootSparkles/main/media/gallery/04-gathering.jpg)
 
 ## Options
@@ -41,8 +45,9 @@ Open **Esc > Options > AddOns > Forever Loot Sparkles**.
 | Ore veins | on | Sparkles and icon on mining nodes. |
 | Herbs | on | Sparkles and icon on herbs. |
 | Quest objects | off | Extra sparkles on quest objects nearby. |
+| Corpses with loot | on | Sparkles on corpses that still hold loot for you, after the fight. |
 
-The three bottom checkboxes take effect at once. **Show quest item sparkles** works at once when you switch it on, but switching it off only takes effect after **restarting the game** (`/reload` is not enough). The panel shows a reminder.
+The four bottom checkboxes take effect at once. **Show quest item sparkles** works at once when you switch it on, but switching it off only takes effect after **restarting the game** (`/reload` is not enough). The panel shows a reminder.
 
 ![Options](https://raw.githubusercontent.com/svengabr/ForeverLootSparkles/main/media/gallery/03-options.jpg)
 
@@ -66,6 +71,9 @@ The game's soft target icons are switched on for everything you can interact wit
 **Why don't nodes sparkle during combat?**
 The game doesn't let addons change these settings during combat. Keeping the sparkle on through a fight would also show a 0% health nameplate over every lootable corpse, so the addon switches it off when combat starts.
 
+**The corpse I walk up to shows a name and health bar.**
+That is the game's own nameplate, which the corpse sparkle hangs on. Only the one corpse the game would loot next gets it, and only while it still holds loot for you. Untick **Corpses with loot** if you'd rather not see it.
+
 **Does it work together with Lueur?**
 Don't run both at once. They change the same soft targeting settings and get in each other's way.
 
@@ -82,7 +90,7 @@ Disabling the addon in the addon list does **not** undo the settings, because Wo
 
 Then restart the game.
 
-The soft targeting settings are put back as soon as **Ore veins**, **Herbs** and **Quest objects** are all off.
+The soft targeting settings are put back as soon as **Ore veins**, **Herbs**, **Quest objects** and **Corpses with loot** are all off.
 
 ## What it sets
 

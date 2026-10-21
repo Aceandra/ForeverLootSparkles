@@ -9,6 +9,7 @@ globals = {
 }
 
 read_globals = {
+  "CanLootUnit",
   "C_CVar",
   "C_NamePlate",
   "C_QuestLog",
@@ -27,6 +28,8 @@ read_globals = {
   "strlower",
   "UIParent",
   "UnitExists",
+  "UnitGUID",
+  "UnitIsDead",
   "UnitIsGameObject",
   "UnitIsInInteractRange",
   "UnitIsUnit",

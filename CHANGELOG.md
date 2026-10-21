@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.3.0
+
+- Corpses that still hold loot for you sparkle as you approach them after the fight, bosses included (the game's own loot sparkle left boss corpses out). New checkbox "Corpses with loot" (on; off if you had switched all sparkles off before).
+- Fewer Lua errors blaming ForeverLootSparkles ("GetAuraDataByIndex(): Auras cannot be accessed when secret while tainted", seen on level up): the soft targeting console variables are now only written when their value actually changes.
+
 ## 1.2.1
 
 - Fixed: killed mobs kept a nameplate with 0% health until they were looted. The soft target nameplate is now switched off when combat starts, so nodes don't sparkle during combat.
