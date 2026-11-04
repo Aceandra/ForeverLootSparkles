@@ -47,7 +47,7 @@ Open **Esc > Options > AddOns > Forever Loot Sparkles**.
 | Quest objects | off | Extra sparkles on quest objects nearby. |
 | Corpses with loot | on | Sparkles on corpses that still hold loot for you, after the fight. |
 
-The four bottom checkboxes take effect at once. **Show quest item sparkles** works at once when you switch it on, but switching it off only takes effect after **restarting the game** (`/reload` is not enough). The panel shows a reminder.
+The four bottom checkboxes take effect at once. **Show quest item sparkles** works at once when you switch it on, but switching it off only takes effect after **restarting the game** (`/reload` is not enough). A reminder appears in chat.
 
 ![Options](https://raw.githubusercontent.com/svengabr/ForeverLootSparkles/main/media/gallery/03-options.jpg)
 

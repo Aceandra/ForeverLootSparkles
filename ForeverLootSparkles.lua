@@ -87,6 +87,12 @@ local function OnEnabledChanged(_, value)
 		pendingAfterCombat = false;
 		timerFrame:Hide();
 		SetAll(DISABLED);
+		-- Switching off only takes effect after a full game restart (/reload is
+		-- not enough). Told in chat: a shown predicate on a settings initializer
+		-- runs addon code inside Blizzard's options search and taints it.
+		if sparklesShown then
+			print("|cffff8000Forever Loot Sparkles:|r restart the game to remove the sparkles. /reload is not enough.");
+		end
 	end
 end
 
@@ -98,14 +104,6 @@ local function RegisterOptions()
 	setting:SetValueChangedCallback(OnEnabledChanged);
 	Settings.CreateCheckbox(category, setting,
 		"Keeps the outline mode off and the loot sparkle on. Switching this off turns the sparkle off and the outline mode back to High. Switching it off takes effect after restarting the game.");
-
-	-- Switching on works at once, but switching off only takes effect after a
-	-- full game restart (/reload is not enough), so only that case gets a notice.
-	local notice = CreateSettingsListSectionHeaderInitializer("|cffff8000Restart the game to remove the sparkles. /reload is not enough.|r");
-	notice:AddShownPredicate(function()
-		return sparklesShown and not IsEnabled();
-	end);
-	Settings.RegisterInitializer(category, notice);
 
 	ns.AddSoftTargetOptions(category, db);
 

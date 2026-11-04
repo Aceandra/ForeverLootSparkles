@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Fixed: searching the game's Options (e.g. for "name" or "display") with the addon enabled raised `ADDON_ACTION_FORBIDDEN … IsUserOAuthed()` and blamed ForeverLootSparkles. The restart reminder is no longer a line in the options panel; it is printed in chat when you switch the sparkles off.
+
 ## 1.3.0
 
 - Corpses that still hold loot for you sparkle as you approach them after the fight, bosses included (the game's own loot sparkle left boss corpses out). New checkbox "Corpses with loot" (on; off if you had switched all sparkles off before).
