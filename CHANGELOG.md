@@ -3,6 +3,8 @@
 ## Unreleased
 
 - Fixed: searching the game's Options (e.g. for "name" or "display") with the addon enabled raised `ADDON_ACTION_FORBIDDEN … IsUserOAuthed()` and blamed ForeverLootSparkles. The restart reminder is no longer a line in the options panel; it is printed in chat when you switch the sparkles off.
+- Fixed: the addon no longer switches **Interact Key Icons** on, which put icons on every chair and NPC. The values you had before 1.2.0 are put back once.
+- Fixed: **Enable Interact Key** is no longer switched back on at every login and `/reload`. The addon turns it on when the sparkles start and when you tick a sparkle checkbox; if you switch it off afterwards, it stays off (and nodes and corpses don't sparkle).
 
 ## 1.3.0
 

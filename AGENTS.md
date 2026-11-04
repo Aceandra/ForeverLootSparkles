@@ -23,7 +23,7 @@ In combat it waits for `PLAYER_REGEN_ENABLED`. One option (checkbox under Esc > 
 hold loot for the player (`UnitIsDead` + `CanLootUnit(guid)` hasLoot/canLoot; `UnitIsCorpse` is false for dead mobs;
 the game's loot sparkle left boss corpses out, reported on CurseForge; a corpse's contents can't be read before the
 loot window opens, checked in the client) and optionally quest
-objects: it switches on interaction soft targeting (`SoftTargetInteract` 3, range 60 (the client still stops at ~15), arc 2, icons via `SoftTargetIconInteract`, `SoftTargetIconGameObject`, `SoftTargetLowPriorityIcons` = 1), turns the
+objects: it switches on interaction soft targeting (`SoftTargetInteract` 3, the game's "Enable Interact Key": set when the sparkles first start and when a sparkle option is ticked, never at login, so a player who switched it off keeps it off (CurseForge issue #2); range 60 (the client still stops at ~15), arc 2). The "Interact Key Icons" cvars (`SoftTargetIconInteract`, `SoftTargetIconGameObject`, `SoftTargetLowPriorityIcons`) were forced to 1 up to 1.3.0 and put icons on chairs and NPCs (issue #3); they are no longer touched, and their saved values are restored once at login. It turns the
 `softinteract` nameplate on only for wanted objects (`SoftTargetNameplateInteract`), classifies the object by its
 cursor icon (`SetUnitCursorTexture`) and hangs a cluster of glints (`Textures/flare.tga`, fallback
 `Interface\Cooldown\star4`) on that nameplate. States: far (dim), ready (bright), locked (grey). The nameplate is closed on `PLAYER_REGEN_DISABLED` (cvars are locked in combat; left open, lootable corpses kept a 0% health nameplate, reported on CurseForge), so nodes don't sparkle in combat. Options
