@@ -12,7 +12,7 @@ A small addon for **World of Warcraft: Forever** that makes lootable things spar
 
 ## Quest item sparkles
 
-The game only shows the sparkle on quest items while the outline mode is off. Graphics presets switch the outline back on, so the addon sets the needed console variables at login, and again about a second after any graphics change resets them. During combat it waits until the fight is over.
+Graphics presets switch the game's loot sparkle off, so the addon switches it back on at login, and again about a second after any graphics change resets it. Your outline mode, and with it the Self Highlight outline around your character, is left as you set it. During combat it waits until the fight is over.
 
 ![Survives graphics presets](https://raw.githubusercontent.com/svengabr/ForeverLootSparkles/main/media/gallery/02-presets.jpg)
 
@@ -42,7 +42,7 @@ Open **Esc > Options > AddOns > Forever Loot Sparkles**.
 
 | Checkbox | Default | What it does |
 | --- | --- | --- |
-| Show quest item sparkles | on | Keeps the outline mode off and the loot sparkle on. |
+| Show quest item sparkles | on | Keeps the loot sparkle on. |
 | Ore veins | on | Sparkles on mining nodes. |
 | Herbs | on | Sparkles on herbs. |
 | Quest objects | off | Extra sparkles on quest objects nearby. |
@@ -86,7 +86,6 @@ Disabling the addon in the addon list does **not** undo the settings, because Wo
 
 ```
 /console outlineModeShowLootEffectWhenDisabled 0
-/console graphicsOutlineMode 2
 ```
 
 Then restart the game.
@@ -100,10 +99,8 @@ For the quest item sparkles:
 | Console variable | Value |
 | --- | --- |
 | `outlineModeShowLootEffectWhenDisabled` | 1 |
-| `graphicsOutlineMode` | 0 |
-| `OutlineEngineMode` | 0 |
-| `raidGraphicsOutlineMode` | 0 |
-| `RAIDOutlineEngineMode` | 0 |
+
+Versions up to 1.3.0 also switched the outline mode off. If you want it back, pick it under Options > Graphics (Outline Mode), or type `/console graphicsOutlineMode 2`.
 
 For the herb and ore sparkles, while at least one of their checkboxes is on (the original values are saved and restored):
 

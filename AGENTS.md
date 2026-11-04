@@ -4,19 +4,13 @@ Notes for AI agents (Claude Code, Codex, Cursor …) working on ForeverLootSpark
 
 ## What the addon does
 
-WoW addon that keeps the sparkle effect on lootable quest items switched on. The sparkle only shows while the
-outline mode is off, and graphics presets turn it back on. At login (and 5 s later) and about 1 s after any
-watched cvar changes (`CVAR_UPDATE`), the addon sets:
+WoW addon that keeps the sparkle effect on lootable quest items switched on. Graphics presets turn it off. At
+login (and 5 s later) and about 1 s after any watched cvar changes (`CVAR_UPDATE`), the addon sets
+`outlineModeShowLootEffectWhenDisabled` = 1. Up to 1.3.0 it also forced `graphicsOutlineMode`, `OutlineEngineMode`,
+`raidGraphicsOutlineMode` and `RAIDOutlineEngineMode` to 0, which removed the player's Self Highlight outline
+(CurseForge issue #1). The outline mode is the player's setting: don't touch it.
 
-| CVar | Value |
-|---|---|
-| `outlineModeShowLootEffectWhenDisabled` | 1 |
-| `graphicsOutlineMode` | 0 |
-| `OutlineEngineMode` | 0 |
-| `raidGraphicsOutlineMode` | 0 |
-| `RAIDOutlineEngineMode` | 0 |
-
-In combat it waits for `PLAYER_REGEN_ENABLED`. One option (checkbox under Esc > Options > AddOns, SavedVariable `ForeverLootSparklesDB.enabled`, default on); switching it off stops enforcing and writes the `DISABLED` values once (loot effect 0, outline modes 2). Tested in the client: switching on shows the sparkle at once, switching off only takes effect after a full game restart (`/reload` is not enough), so switching it off prints a restart notice in chat (not a settings header with a shown predicate: Blizzard's options search runs those and gets tainted, CurseForge issue #4). The cvar part lives in
+In combat it waits for `PLAYER_REGEN_ENABLED`. One option (checkbox under Esc > Options > AddOns, SavedVariable `ForeverLootSparklesDB.enabled`, default on); switching it off stops enforcing and writes the `DISABLED` value once (loot effect 0). Tested in the client: switching on shows the sparkle at once, switching off only takes effect after a full game restart (`/reload` is not enough), so switching it off prints a restart notice in chat (not a settings header with a shown predicate: Blizzard's options search runs those and gets tainted, CurseForge issue #4). The cvar part lives in
 `ForeverLootSparkles.lua`.
 
 `SoftTarget.lua` (adapted from the maintainer's Lueur addon) adds sparkles on ore veins, herbs, corpses that still
