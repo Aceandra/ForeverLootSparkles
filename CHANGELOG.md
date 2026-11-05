@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 1.3.1
 
 - The addon no longer touches your outline mode, so the Self Highlight outline around your character works again. It only keeps the loot sparkle switched on. Up to 1.3.0 it switched the outline mode off; pick it again under Options > Graphics if you want it back.
 - Fixed: searching the game's Options (e.g. for "name" or "display") with the addon enabled raised `ADDON_ACTION_FORBIDDEN … IsUserOAuthed()` and blamed ForeverLootSparkles. The restart reminder is no longer a line in the options panel; it is printed in chat when you switch the sparkles off.
