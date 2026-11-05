@@ -46,12 +46,14 @@ local LOCK_DELAY = 0.60;    -- same for "locked", confirmed more carefully
 -- once every category is switched off.
 local MANAGED_CVARS = {
 	"SoftTargetInteract", "SoftTargetNameplateInteract", "SoftTargetInteractRange",
-	"SoftTargetInteractArc", "SoftTargetInteractOnlyInRange",
+	"SoftTargetInteractArc", "SoftTargetInteractOnlyInRange", "SoftTargetIconGameObject",
 };
 
--- "Interact Key Icons", switched on up to 1.3.0. The sparkle doesn't need them
--- and they put icons on every chair and NPC, so the saved values go back once.
-local ICON_CVARS = { "SoftTargetIconInteract", "SoftTargetIconGameObject", "SoftTargetLowPriorityIcons" };
+-- Part of "Interact Key Icons", switched on up to 1.3.0. The sparkle doesn't
+-- need them and they put icons on every chair and NPC, so the saved values go
+-- back once. SoftTargetIconGameObject stays: without it a world object gets no
+-- nameplate to hang the sparkle on (checked in the client).
+local ICON_CVARS = { "SoftTargetIconInteract", "SoftTargetLowPriorityIcons" };
 
 -- Cursor files (Interface\Cursor\*.blp) -> category
 local CURSOR_CATEGORY = {
@@ -162,9 +164,10 @@ end
 
 local Evaluate;
 
--- SoftTargetInteract is the game's "Enable Interact Key" setting. It is switched
--- on when the sparkles start and whenever a sparkle option is switched on
--- (force); at login a player who switched it off afterwards keeps it off.
+-- SoftTargetInteract ("Enable Interact Key") and SoftTargetIconGameObject (part
+-- of "Interact Key Icons") are the player's settings too. They are switched on
+-- when the sparkles start and whenever a sparkle option is switched on (force);
+-- at login a player who switched them off afterwards keeps them off.
 local function ApplyCVars(force)
 	if InCombatLockdown() then
 		pendingCVars = "apply";
@@ -172,7 +175,7 @@ local function ApplyCVars(force)
 		return;
 	end
 	db.savedCVars = db.savedCVars or {};
-	if db.savedCVars.SoftTargetInteract == nil then
+	if db.savedCVars.SoftTargetInteract == nil or db.savedCVars.SoftTargetIconGameObject == nil then
 		force = true;
 	end
 	for _, name in ipairs(MANAGED_CVARS) do
@@ -182,6 +185,7 @@ local function ApplyCVars(force)
 	end
 	if force then
 		SetCVarValue("SoftTargetInteract", 3);      -- interaction soft target always on
+		SetCVarValue("SoftTargetIconGameObject", 1); -- world objects get a nameplate
 	end
 	SetCVarValue("SoftTargetInteractRange", RANGE);
 	SetCVarValue("SoftTargetInteractArc", ARC);
@@ -734,7 +738,7 @@ function ns.AddSoftTargetOptions(category, savedVariables)
 		setting:SetValueChangedCallback(OnChanged);
 		Settings.CreateCheckbox(category, setting, tooltip);
 	end
-	local how = " Uses Blizzard's soft targeting: the nearest object within about 15 yards sparkles, brighter once you can reach it. Needs the game's Enable Interact Key setting; switching this on turns it on, and with it off nothing sparkles.";
+	local how = " Uses Blizzard's soft targeting: the nearest object within about 15 yards sparkles, brighter once you can reach it. Needs the game's Enable Interact Key setting and its interact icons on objects; switching this on turns both on, and with them off nothing sparkles.";
 	AddCheckbox("sparkleOre", "FOREVER_LOOT_SPARKLES_ORE", "Ore veins",
 		"Sparkles on mining nodes as you approach them." .. how);
 	AddCheckbox("sparkleHerbs", "FOREVER_LOOT_SPARKLES_HERBS", "Herbs",

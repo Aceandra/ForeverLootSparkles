@@ -28,7 +28,7 @@ This uses Blizzard's soft targeting, which picks the nearest interactable object
 
 The addon only switches on the game's nameplate for nodes that sparkle. NPCs, mailboxes and other objects still work with the interact key as usual.
 
-Soft targeting is the game's **Enable Interact Key** setting. The addon switches it on when the sparkles start and whenever you tick one of the checkboxes below. If you switch it off yourself afterwards, it stays off, and nodes and corpses don't sparkle. During combat nodes don't sparkle; they come back as soon as the fight is over.
+Soft targeting is the game's **Enable Interact Key** setting, and the sparkle hangs on the nameplate the game only gives world objects while their interact icons are on. The addon switches both on when the sparkles start and whenever you tick one of the checkboxes below, so the node you're heading for also shows the game's gathering icon. If you switch them off yourself afterwards, they stay off, and nodes and corpses don't sparkle. During combat nodes don't sparkle; they come back as soon as the fight is over.
 
 ## Corpse sparkles
 
@@ -67,10 +67,7 @@ The game has no setting for that. The quest item sparkle replaces the outline th
 The addon asks the game for the largest range, but the game itself drops the target at about 15 yards.
 
 **I see an icon above NPCs, chairs or other objects.**
-That is the game's **Interact Key Icons** setting (Accessibility). Versions up to 1.3.0 switched it on; the addon now leaves it alone and put back what you had before, so switch it off there if it is still on.
-
-**I want the gathering icon above nodes.**
-Switch on **Interact Key Icons** in the game's options. The addon doesn't touch it.
+That comes from the game's **Interact Key Icons** setting (Accessibility). Versions up to 1.3.0 switched on all of it, chairs and NPCs included. Now the addon only switches on the icons on world objects, which the sparkle needs, and put the rest back to what you had before. Pick "Default" there if you still see them.
 
 **Why don't nodes sparkle during combat?**
 The game doesn't let addons change these settings during combat. Keeping the sparkle on through a fight would also show a 0% health nameplate over every lootable corpse, so the addon switches it off when combat starts.
@@ -116,6 +113,7 @@ For the herb and ore sparkles, while at least one of their checkboxes is on (the
 | `SoftTargetInteractRange` | 60 (the game still stops at about 15 yards) |
 | `SoftTargetInteractArc` | 2 |
 | `SoftTargetInteractOnlyInRange` | 0 |
+| `SoftTargetIconGameObject` | 1, once (stays as you set it afterwards) |
 | `SoftTargetNameplateInteract` | 1 on a node that sparkles, otherwise 0 |
 
 ## Support
