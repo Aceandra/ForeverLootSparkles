@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Herbs, ore or corpses no longer sparkle?
+    url: https://github.com/svengabr/ForeverLootSparkles#where-did-the-herb-ore-and-corpse-sparkles-go
+    about: That is on purpose. Version 2.0.0 removed them (and the interact icon above objects). For herb and ore sparkles, use Lueur.
+  - name: Lueur (herb, ore and chest sparkles)
+    url: https://www.curseforge.com/wow/addons/lueur
+    about: Lights up ore veins, herbs, chests and quest objects as you approach them.

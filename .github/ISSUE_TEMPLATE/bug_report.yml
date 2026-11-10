@@ -1,0 +1,46 @@
+name: Bug report
+description: Quest items don't sparkle, or the addon changes something it shouldn't.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Herbs, ore or corpses no longer sparkle, or the icon above objects is gone?** That is on purpose: version 2.0.0 removed them, because the soft targeting they needed broke self-cast on friendly spells and left empty nameplates on dead mobs. For herb and ore sparkles, use [Lueur](https://www.curseforge.com/wow/addons/lueur). Please don't open an issue for that.
+
+        Since 2.0.0 the addon only keeps the game's own loot sparkle on quest items switched on.
+  - type: input
+    id: version
+    attributes:
+      label: Addon version
+      description: Shown in the addon list (Esc > Options > AddOns).
+      placeholder: "2.0.0"
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happens
+      description: What did you expect, and what happened instead? Which quest item or zone?
+    validations:
+      required: true
+  - type: input
+    id: cvar
+    attributes:
+      label: Loot effect setting
+      description: Paste the output of `/dump C_CVar.GetCVar("outlineModeShowLootEffectWhenDisabled")` (it should be "1").
+  - type: dropdown
+    id: alone
+    attributes:
+      label: Does it still happen with only Forever Loot Sparkles enabled?
+      options:
+        - "Yes"
+        - "No"
+        - Didn't try
+    validations:
+      required: true
+  - type: textarea
+    id: errors
+    attributes:
+      label: Lua errors
+      description: Any error from BugSack or `/console scriptErrors 1`, if there is one.
+      render: text
